@@ -1,0 +1,71 @@
+[package]
+name = "plausiden-shield"
+version = "0.1.0"
+edition = "2021"
+description = "Unified operations platform for Linux server infrastructure"
+license = "MIT"
+authors = ["PlausiDen"]
+
+[dependencies]
+# Web framework
+axum = { version = "0.8", features = ["ws", "multipart"] }
+axum-extra = { version = "0.10", features = ["cookie", "typed-header"] }
+tower = { version = "0.5", features = ["util", "timeout"] }
+tower-http = { version = "0.6", features = ["fs", "cors", "compression-gzip", "trace"] }
+tokio = { version = "1", features = ["full"] }
+hyper = { version = "1", features = ["full"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+
+# Database
+rusqlite = { version = "0.32", features = ["bundled", "serde_json"] }
+
+# Auth
+argon2 = "0.5"
+sha2 = "0.10"
+rand = "0.8"
+jsonwebtoken = "9"
+totp-rs = { version = "5", features = ["gen_secret", "otpauth"] }
+base64 = "0.22"
+
+# HTTP client (for integrations)
+reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# System info
+sysinfo = "0.32"
+
+# Error handling
+anyhow = "1"
+thiserror = "1"
+
+# Async utilities
+async-trait = "0.1"
+tokio-stream = "0.1"
+
+# Templating (for email templates)
+minijinja = "2"
+
+# CLI
+clap = { version = "4", features = ["derive"] }
+
+# Glob/regex for file operations
+globset = "0.4"
+regex = "1"
+
+# UUID for ticket IDs, session tokens
+uuid = { version = "1", features = ["v4", "serde"] }
+
+[profile.release]
+lto = true
+strip = true
+codegen-units = 1
