@@ -2,6 +2,7 @@
 //!
 //! Evaluates access based on attributes of the user, resource, action,
 //! and environment. Policies are loaded from the database or policy files.
+#![allow(dead_code)]
 
 use anyhow::Result;
 use serde::{Deserialize, Serialize};

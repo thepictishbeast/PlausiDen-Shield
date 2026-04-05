@@ -2,6 +2,7 @@
 //!
 //! Defines the role hierarchy and baseline permissions.
 //! This is the foundation that higher layers refine.
+#![allow(dead_code)]
 
 use serde::{Deserialize, Serialize};
 use std::fmt;

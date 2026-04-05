@@ -3,6 +3,7 @@
 //! Non-overridable security floor. Users have a clearance level;
 //! resources have a sensitivity label. Access is denied if the user's
 //! clearance is below the resource's sensitivity.
+#![allow(dead_code)]
 //!
 //! Labels follow a strict ordering:
 //!   Public < Internal < Confidential < Restricted

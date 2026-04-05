@@ -2,6 +2,7 @@
 //!
 //! Serves historical metric data from SQLite for the dashboard charts,
 //! and provides audit log queries.
+#![allow(dead_code)]
 
 use anyhow::{Context, Result};
 use serde::Serialize;
@@ -82,6 +83,7 @@ pub async fn get_audit_log(db: &Database, limit: u32) -> Result<Vec<AuditEntry>>
 }
 
 /// Log an audit entry.
+#[allow(clippy::too_many_arguments)]
 pub async fn log_audit(
     db: &Database,
     user_id: Option<i64>,

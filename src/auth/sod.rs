@@ -3,6 +3,7 @@
 //! Prevents the same user from performing conflicting actions.
 //! Example: the user who creates a firewall rule cannot also approve it
 //! in a change-management workflow.
+#![allow(dead_code)]
 
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;

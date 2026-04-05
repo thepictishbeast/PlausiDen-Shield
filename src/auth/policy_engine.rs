@@ -3,6 +3,7 @@
 //! Every access request is evaluated through all six layers in order:
 //!   1. RBAC  — role-based baseline
 //!   2. ABAC  — attribute-based refinement
+#![allow(dead_code)]
 //!   3. PBAC  — weighted probabilistic soft logic (hard-fail veto)
 //!   4. MAC   — mandatory sensitivity labels (non-overridable floor)
 //!   5. SoD   — separation of duties (conflict prevention)

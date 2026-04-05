@@ -2,6 +2,7 @@
 //!
 //! Sessions are stored in SQLite. Tokens are SHA-256 hashed before storage.
 //! Session cookies are httpOnly + Secure + SameSite=Strict.
+#![allow(dead_code)]
 
 use anyhow::{Context, Result};
 use argon2::{

@@ -46,7 +46,7 @@ impl FromRequestParts<AppState> for AuthUser {
             None => return Err(StatusCode::UNAUTHORIZED),
         };
 
-        match session::validate_session(&state.db, &token).await {
+        match session::validate_session(&state.db, token).await {
             Ok(Some(user)) => Ok(AuthUser(user)),
             _ => Err(StatusCode::UNAUTHORIZED),
         }

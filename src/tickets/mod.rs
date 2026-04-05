@@ -1,4 +1,5 @@
 //! Ticketing system — internal issue tracking and knowledge base.
+#![allow(dead_code)]
 
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};

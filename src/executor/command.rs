@@ -2,6 +2,7 @@
 //!
 //! Security invariant: user input is NEVER interpolated into shell strings.
 //! All arguments are passed as explicit array elements to `Command::new()`.
+#![allow(dead_code)]
 
 use anyhow::{Context, Result};
 use std::process::Output;
