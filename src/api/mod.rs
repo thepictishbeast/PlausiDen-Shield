@@ -145,13 +145,26 @@ async fn create_ticket(
 }
 
 async fn get_ticket(
-    State(_state): State<AppState>,
+    State(state): State<AppState>,
     AuthUser(user): AuthUser,
-    axum::extract::Path(_id): axum::extract::Path<i64>,
+    axum::extract::Path(id): axum::extract::Path<i64>,
 ) -> Result<Json<serde_json::Value>, StatusCode> {
     require_permission(&user, Permission::ViewAllTickets)?;
-    // TODO: fetch single ticket by ID
-    Ok(Json(serde_json::json!({ "todo": true })))
+    let ticket = crate::tickets::get(&state.db, id)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+    match ticket {
+        Some(t) => {
+            let comments = crate::tickets::get_comments(&state.db, id)
+                .await
+                .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+            Ok(Json(serde_json::json!({
+                "ticket": t,
+                "comments": comments,
+            })))
+        }
+        None => Err(StatusCode::NOT_FOUND),
+    }
 }
 
 async fn update_ticket(

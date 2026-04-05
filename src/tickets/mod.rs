@@ -4,6 +4,8 @@
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
 
+use rusqlite::OptionalExtension;
+
 use crate::db::Database;
 
 #[derive(Debug, Clone, Serialize)]
@@ -148,6 +150,62 @@ pub async fn update(db: &Database, ticket_id: i64, req: &UpdateTicket) -> Result
             )?;
         }
         Ok(())
+    })
+    .await
+}
+
+/// Get a single ticket by ID.
+pub async fn get(db: &Database, ticket_id: i64) -> Result<Option<Ticket>> {
+    db.call(move |conn| {
+        let ticket = conn
+            .query_row(
+                "SELECT id, title, description, status, priority, category, \
+                 created_by, assigned_to, created_at, updated_at, resolved_at, closed_at \
+                 FROM tickets WHERE id = ?1",
+                rusqlite::params![ticket_id],
+                |row| {
+                    Ok(Ticket {
+                        id: row.get(0)?,
+                        title: row.get(1)?,
+                        description: row.get(2)?,
+                        status: row.get(3)?,
+                        priority: row.get(4)?,
+                        category: row.get(5)?,
+                        created_by: row.get(6)?,
+                        assigned_to: row.get(7)?,
+                        created_at: row.get(8)?,
+                        updated_at: row.get(9)?,
+                        resolved_at: row.get(10)?,
+                        closed_at: row.get(11)?,
+                    })
+                },
+            )
+            .optional()
+            .context("Ticket lookup failed")?;
+        Ok(ticket)
+    })
+    .await
+}
+
+/// Get comments for a ticket.
+pub async fn get_comments(db: &Database, ticket_id: i64) -> Result<Vec<TicketComment>> {
+    db.call(move |conn| {
+        let mut stmt = conn.prepare(
+            "SELECT id, ticket_id, user_id, body, created_at \
+             FROM ticket_comments WHERE ticket_id = ?1 ORDER BY created_at ASC",
+        )?;
+        let comments = stmt
+            .query_map(rusqlite::params![ticket_id], |row| {
+                Ok(TicketComment {
+                    id: row.get(0)?,
+                    ticket_id: row.get(1)?,
+                    user_id: row.get(2)?,
+                    body: row.get(3)?,
+                    created_at: row.get(4)?,
+                })
+            })?
+            .collect::<Result<Vec<_>, _>>()?;
+        Ok(comments)
     })
     .await
 }

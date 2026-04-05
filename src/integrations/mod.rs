@@ -59,6 +59,12 @@ pub struct IntegrationBus {
     integrations: Arc<RwLock<HashMap<String, Box<dyn Integration>>>>,
 }
 
+impl Default for IntegrationBus {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl IntegrationBus {
     pub fn new() -> Self {
         Self {

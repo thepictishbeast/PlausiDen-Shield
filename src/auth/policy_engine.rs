@@ -76,6 +76,12 @@ pub struct PolicyEngine {
     sod_constraints: Vec<SodConstraint>,
 }
 
+impl Default for PolicyEngine {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl PolicyEngine {
     pub fn new() -> Self {
         Self {

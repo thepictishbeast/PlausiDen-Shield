@@ -6,15 +6,12 @@
 //! the safe executor layer (no shell injection). Six-layer access control
 //! on every request.
 
-mod analytics;
 mod api;
-mod auth;
-mod config;
-mod db;
-mod executor;
-mod integrations;
-mod monitor;
-mod tickets;
+
+// Re-export from lib so `crate::X` works in api modules.
+pub use plausiden_shield::{
+    analytics, auth, config, db, executor, integrations, monitor, tickets, AppState,
+};
 
 use std::net::SocketAddr;
 use std::path::PathBuf;
@@ -28,15 +25,6 @@ use tower_http::{
     services::ServeDir,
     trace::TraceLayer,
 };
-
-/// Shared application state available to all handlers.
-#[derive(Clone)]
-pub struct AppState {
-    pub db: db::Database,
-    pub config: Arc<config::ShieldConfig>,
-    pub system: Arc<tokio::sync::Mutex<sysinfo::System>>,
-    pub integrations: Arc<integrations::IntegrationBus>,
-}
 
 /// PlausiDen Shield — Linux server operations platform.
 #[derive(Parser)]
