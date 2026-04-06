@@ -2,6 +2,8 @@
 //!
 //! Library crate exposing core modules for integration tests.
 
+#![forbid(unsafe_code)]
+
 pub mod analytics;
 pub mod auth;
 pub mod config;

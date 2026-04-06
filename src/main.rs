@@ -6,6 +6,8 @@
 //! the safe executor layer (no shell injection). Six-layer access control
 //! on every request.
 
+#![forbid(unsafe_code)]
+
 mod api;
 
 // Re-export from lib so `crate::X` works in api modules.
