@@ -27,7 +27,7 @@ rusqlite = { version = "0.32", features = ["bundled", "serde_json"] }
 argon2 = "0.5"
 sha2 = "0.10"
 rand = "0.8"
-jsonwebtoken = "9"
+jsonwebtoken = "10"
 totp-rs = { version = "5", features = ["gen_secret", "otpauth"] }
 base64 = "0.22"
 
