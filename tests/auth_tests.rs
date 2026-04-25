@@ -103,7 +103,10 @@ async fn create_user_and_login() {
         .await
         .unwrap();
 
-    assert!(result.is_some(), "Login should succeed with correct password");
+    assert!(
+        result.is_some(),
+        "Login should succeed with correct password"
+    );
     let (sess, token) = result.unwrap();
     assert!(!token.is_empty());
     assert_eq!(sess.user_id, user_id);

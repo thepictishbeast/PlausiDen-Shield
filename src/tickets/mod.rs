@@ -53,7 +53,10 @@ pub async fn create(db: &Database, user_id: i64, req: &CreateTicket) -> Result<i
     let title = req.title.clone();
     let desc = req.description.clone();
     let priority = req.priority.clone().unwrap_or_else(|| "medium".to_string());
-    let category = req.category.clone().unwrap_or_else(|| "general".to_string());
+    let category = req
+        .category
+        .clone()
+        .unwrap_or_else(|| "general".to_string());
 
     db.call(move |conn| {
         conn.execute(
@@ -211,12 +214,7 @@ pub async fn get_comments(db: &Database, ticket_id: i64) -> Result<Vec<TicketCom
 }
 
 /// Add a comment to a ticket.
-pub async fn add_comment(
-    db: &Database,
-    ticket_id: i64,
-    user_id: i64,
-    body: &str,
-) -> Result<i64> {
+pub async fn add_comment(db: &Database, ticket_id: i64, user_id: i64, body: &str) -> Result<i64> {
     let body = body.to_string();
     db.call(move |conn| {
         conn.execute(

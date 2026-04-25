@@ -23,7 +23,10 @@ fn mac_public_access_always_allowed() {
 #[test]
 fn mac_restricted_resource_needs_restricted_clearance() {
     let result = mac::evaluate(SecurityLabel::Internal, SecurityLabel::Restricted);
-    assert!(!result.allowed, "Internal clearance cannot access restricted resources");
+    assert!(
+        !result.allowed,
+        "Internal clearance cannot access restricted resources"
+    );
 }
 
 #[test]
@@ -49,8 +52,14 @@ fn security_label_ordering() {
 
 #[test]
 fn security_label_from_str() {
-    assert_eq!(SecurityLabel::from_str_loose("public"), Some(SecurityLabel::Public));
-    assert_eq!(SecurityLabel::from_str_loose("RESTRICTED"), Some(SecurityLabel::Restricted));
+    assert_eq!(
+        SecurityLabel::from_str_loose("public"),
+        Some(SecurityLabel::Public)
+    );
+    assert_eq!(
+        SecurityLabel::from_str_loose("RESTRICTED"),
+        Some(SecurityLabel::Restricted)
+    );
     assert_eq!(SecurityLabel::from_str_loose("bogus"), None);
 }
 
@@ -250,7 +259,10 @@ fn sod_detects_conflict() {
 
     let result = sod::evaluate(&constraints, "approve", &prior);
     assert!(!result.allowed);
-    assert_eq!(result.violated_constraints, vec!["deploy-approve-separation"]);
+    assert_eq!(
+        result.violated_constraints,
+        vec!["deploy-approve-separation"]
+    );
 }
 
 #[test]

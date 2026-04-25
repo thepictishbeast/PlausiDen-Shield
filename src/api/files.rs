@@ -72,13 +72,10 @@ pub async fn browse(
 
         let name = entry.file_name().to_string_lossy().to_string();
         let path = entry.path().to_string_lossy().to_string();
-        let modified = metadata
-            .modified()
-            .ok()
-            .map(|t| {
-                let dt: chrono::DateTime<chrono::Utc> = t.into();
-                dt.to_rfc3339()
-            });
+        let modified = metadata.modified().ok().map(|t| {
+            let dt: chrono::DateTime<chrono::Utc> = t.into();
+            dt.to_rfc3339()
+        });
 
         entries.push(FileEntry {
             name,
@@ -90,9 +87,7 @@ pub async fn browse(
         });
     }
 
-    entries.sort_by(|a, b| {
-        b.is_dir.cmp(&a.is_dir).then(a.name.cmp(&b.name))
-    });
+    entries.sort_by(|a, b| b.is_dir.cmp(&a.is_dir).then(a.name.cmp(&b.name)));
 
     Ok(Json(DirectoryListing {
         path: safe_path.to_string_lossy().to_string(),
@@ -150,9 +145,7 @@ fn resolve_safe_path(requested: &str) -> Result<PathBuf, StatusCode> {
     let path = PathBuf::from(requested);
 
     // Canonicalize to resolve symlinks and ../ traversal.
-    let canonical = path
-        .canonicalize()
-        .map_err(|_| StatusCode::NOT_FOUND)?;
+    let canonical = path.canonicalize().map_err(|_| StatusCode::NOT_FOUND)?;
 
     // Block forbidden system paths.
     for forbidden in FORBIDDEN_PATHS {

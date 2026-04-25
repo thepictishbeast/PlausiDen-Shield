@@ -189,7 +189,10 @@ pub fn evaluate(role: Role, permission: Permission) -> RbacDecision {
     let reason = if allowed {
         format!("Role '{}' includes permission '{:?}'", role, permission)
     } else {
-        format!("Role '{}' does not include permission '{:?}'", role, permission)
+        format!(
+            "Role '{}' does not include permission '{:?}'",
+            role, permission
+        )
     };
     RbacDecision {
         allowed,

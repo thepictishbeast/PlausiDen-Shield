@@ -62,10 +62,9 @@ pub async fn get_status(
     let mut jails = Vec::new();
 
     for jail_name in &jail_names {
-        let jail_status =
-            command::exec_sudo("fail2ban-client", &["status", jail_name])
-                .await
-                .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+        let jail_status = command::exec_sudo("fail2ban-client", &["status", jail_name])
+            .await
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
         jails.push(parse_jail_status(jail_name, &jail_status.stdout));
     }
@@ -88,10 +87,9 @@ pub async fn ban_ip(
         return Err(StatusCode::BAD_REQUEST);
     }
 
-    let result =
-        command::exec_sudo("fail2ban-client", &["set", &req.jail, "banip", &req.ip])
-            .await
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+    let result = command::exec_sudo("fail2ban-client", &["set", &req.jail, "banip", &req.ip])
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
     Ok(Json(serde_json::json!({
         "ok": result.success,
@@ -111,10 +109,9 @@ pub async fn unban_ip(
         return Err(StatusCode::BAD_REQUEST);
     }
 
-    let result =
-        command::exec_sudo("fail2ban-client", &["set", &req.jail, "unbanip", &req.ip])
-            .await
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+    let result = command::exec_sudo("fail2ban-client", &["set", &req.jail, "unbanip", &req.ip])
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
     Ok(Json(serde_json::json!({
         "ok": result.success,
@@ -169,10 +166,7 @@ fn parse_jail_status(name: &str, output: &str) -> JailInfo {
             }
         } else if line.starts_with("Banned IP list:") {
             if let Some(ips) = line.split(':').nth(1) {
-                banned_ips = ips
-                    .split_whitespace()
-                    .map(|s| s.to_string())
-                    .collect();
+                banned_ips = ips.split_whitespace().map(|s| s.to_string()).collect();
             }
         }
     }

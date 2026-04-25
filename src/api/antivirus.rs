@@ -45,8 +45,7 @@ pub async fn get_status(
     require_permission(&user, Permission::ViewAntivirus)?;
 
     // Check if clamd is running.
-    let ping = command::exec("clamdscan", &["--ping"])
-        .await;
+    let ping = command::exec("clamdscan", &["--ping"]).await;
 
     let daemon_running = ping.as_ref().map(|r| r.success).unwrap_or(false);
 

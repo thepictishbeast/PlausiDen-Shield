@@ -113,7 +113,9 @@ pub fn evaluate(rules: &[AbacRule], attrs: &AccessAttributes) -> AbacDecision {
 
 /// Check if all conditions of a rule match the attributes.
 fn rule_matches(rule: &AbacRule, attrs: &AccessAttributes) -> bool {
-    rule.conditions.iter().all(|cond| condition_matches(cond, attrs))
+    rule.conditions
+        .iter()
+        .all(|cond| condition_matches(cond, attrs))
 }
 
 fn condition_matches(cond: &AbacCondition, attrs: &AccessAttributes) -> bool {
@@ -146,18 +148,14 @@ fn condition_matches(cond: &AbacCondition, attrs: &AccessAttributes) -> bool {
                 false
             }
         }
-        ConditionOp::GreaterThan => {
-            match (actual.as_f64(), cond.value.as_f64()) {
-                (Some(a), Some(b)) => a > b,
-                _ => false,
-            }
-        }
-        ConditionOp::LessThan => {
-            match (actual.as_f64(), cond.value.as_f64()) {
-                (Some(a), Some(b)) => a < b,
-                _ => false,
-            }
-        }
+        ConditionOp::GreaterThan => match (actual.as_f64(), cond.value.as_f64()) {
+            (Some(a), Some(b)) => a > b,
+            _ => false,
+        },
+        ConditionOp::LessThan => match (actual.as_f64(), cond.value.as_f64()) {
+            (Some(a), Some(b)) => a < b,
+            _ => false,
+        },
     }
 }
 

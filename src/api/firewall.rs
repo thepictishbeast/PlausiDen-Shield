@@ -144,9 +144,13 @@ pub async fn add_rule(
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
     if result.success {
-        Ok(Json(serde_json::json!({ "ok": true, "message": result.stdout.trim() })))
+        Ok(Json(
+            serde_json::json!({ "ok": true, "message": result.stdout.trim() }),
+        ))
     } else {
-        Ok(Json(serde_json::json!({ "ok": false, "error": result.stderr.trim() })))
+        Ok(Json(
+            serde_json::json!({ "ok": false, "error": result.stderr.trim() }),
+        ))
     }
 }
 
@@ -166,7 +170,9 @@ pub async fn delete_rule(
     if result.success {
         Ok(Json(serde_json::json!({ "ok": true })))
     } else {
-        Ok(Json(serde_json::json!({ "ok": false, "error": result.stderr.trim() })))
+        Ok(Json(
+            serde_json::json!({ "ok": false, "error": result.stderr.trim() }),
+        ))
     }
 }
 
@@ -227,10 +233,7 @@ fn is_valid_port_spec(s: &str) -> bool {
 
 fn parse_ufw_status(output: &str) -> FirewallStatus {
     let lines: Vec<&str> = output.lines().collect();
-    let active = lines
-        .first()
-        .map(|l| l.contains("active"))
-        .unwrap_or(false)
+    let active = lines.first().map(|l| l.contains("active")).unwrap_or(false)
         && !lines
             .first()
             .map(|l| l.contains("inactive"))

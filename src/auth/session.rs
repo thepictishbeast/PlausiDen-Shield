@@ -82,12 +82,7 @@ fn hash_token(token: &str) -> String {
 }
 
 /// Create a new user in the database.
-pub async fn create_user(
-    db: &Database,
-    username: &str,
-    password: &str,
-    role: Role,
-) -> Result<i64> {
+pub async fn create_user(db: &Database, username: &str, password: &str, role: Role) -> Result<i64> {
     let pw_hash = hash_password(password)?;
     let role_str = role.to_string();
     let uname = username.to_string();

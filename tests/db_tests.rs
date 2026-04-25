@@ -68,7 +68,10 @@ fn foreign_keys_enforced() {
             "INSERT INTO tickets (title, description, created_by) VALUES ('test', 'desc', 999)",
             [],
         );
-        assert!(result.is_err(), "FK constraint should reject nonexistent user");
+        assert!(
+            result.is_err(),
+            "FK constraint should reject nonexistent user"
+        );
         Ok(())
     });
 }
@@ -81,7 +84,10 @@ fn user_role_check_constraint() {
             "INSERT INTO users (username, password_hash, role) VALUES ('x', 'hash', 'superadmin')",
             [],
         );
-        assert!(result.is_err(), "CHECK constraint should reject invalid role");
+        assert!(
+            result.is_err(),
+            "CHECK constraint should reject invalid role"
+        );
         Ok(())
     });
 }
@@ -98,7 +104,10 @@ fn ticket_status_check_constraint() {
             "INSERT INTO tickets (title, description, status, created_by) VALUES ('t', 'd', 'invalid', 1)",
             [],
         );
-        assert!(result.is_err(), "CHECK constraint should reject invalid status");
+        assert!(
+            result.is_err(),
+            "CHECK constraint should reject invalid status"
+        );
         Ok(())
     });
 }

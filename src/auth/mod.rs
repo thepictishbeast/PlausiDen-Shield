@@ -67,10 +67,7 @@ pub fn parse_cookie<'a>(header: &'a str, name: &str) -> Option<&'a str> {
 }
 
 /// Require a specific permission (use after AuthUser extraction).
-pub fn require_permission(
-    user: &session::User,
-    perm: rbac::Permission,
-) -> Result<(), StatusCode> {
+pub fn require_permission(user: &session::User, perm: rbac::Permission) -> Result<(), StatusCode> {
     if user.role.has_permission(perm) {
         Ok(())
     } else {
