@@ -24,10 +24,8 @@ toml = "0.8"
 rusqlite = { version = "0.32", features = ["bundled", "serde_json"] }
 
 # Auth
-argon2 = "0.5"
+argon2 = { version = "0.5", features = ["std"] }
 sha2 = "0.10"
-rand = "0.8"
-jsonwebtoken = "9"
 totp-rs = { version = "5", features = ["gen_secret", "otpauth"] }
 base64 = "0.22"
 
