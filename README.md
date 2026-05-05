@@ -64,7 +64,7 @@ System / Database / Integration Bus
 ## Quick Start
 
 ```bash
-git clone https://github.com/redcaptian1917/PlausiDen-Shield.git
+git clone https://github.com/thepictishbeast/PlausiDen-Shield.git
 cd PlausiDen-Shield
 cargo build --release
 
